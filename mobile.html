@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Группа Астра | Мобильное (4 колонки)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0A0F1E;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #EFF3F9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+        .frame {
+            max-width: 420px;
+            width: 100%;
+            background: #0F1424;
+            border: 2px solid #2A3A5E;
+            border-radius: 28px;
+            overflow: hidden;
+        }
+        /* 4 колонки — используем флекс с полной шириной */
+        .container { padding: 0 18px; }
+        .col-4 { width: 100%; }
+        .header { padding: 18px 18px 12px; border-bottom: 1px solid #232B44; }
+        .nav { display: flex; gap: 32px; justify-content: center; }
+        .menu-item { font-size: 18px; font-weight: 500; color: #C0D0F0; text-decoration: none; cursor: pointer; padding: 6px 0; }
+        .menu-item.active { color: #4B9CFF; border-bottom: 2px solid #4B9CFF; }
+        .screen-badge { background: #1B233B; display: inline-block; padding: 4px 12px; border-radius: 30px; font-size: 10px; margin-top: 12px; }
+        .content { padding: 24px 18px 36px; min-height: 520px; }
+        .search-wrapper { margin-bottom: 32px; }
+        .search-box { display: flex; align-items: center; background: #1A1F32; border-radius: 60px; border: 1px solid #2F3B5C; padding: 4px 8px 4px 16px; }
+        .search-icon { width: 20px; height: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%238F9FCC" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>') no-repeat center; background-size: contain; margin-right: 8px; }
+        .search-input { background: transparent; border: none; padding: 12px 0; font-size: 15px; color: white; width: 100%; outline: none; }
+        .os-badge { font-size: 11px; letter-spacing: 1px; color: #4B9CFF; margin-bottom: 8px; text-transform: uppercase; }
+        h1 { font-size: 28px; margin-bottom: 16px; line-height: 1.3; background: linear-gradient(135deg,#FFF,#A9C5FF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .description { font-size: 14px; color: #CBD5E6; margin-bottom: 24px; }
+        .stats { background: #12182C; padding: 16px; border-radius: 20px; margin: 24px 0; display: flex; flex-direction: column; gap: 12px; }
+        .stat-item { font-size: 13px; display: flex; gap: 8px; align-items: center; }
+        .button-group { display: flex; flex-direction: column; gap: 14px; margin: 24px 0 16px; }
+        .btn { padding: 12px 16px; font-size: 15px; font-weight: 600; border-radius: 48px; min-width: 100%; min-height: 48px; cursor: pointer; border: none; width: 100%; }
+        .btn-primary { background: #2F6ED6; color: white; }
+        .btn-secondary { background: transparent; border: 1.5px solid #4B9CFF; color: #BFD9FF; }
+        .cards-grid { display: flex; flex-direction: column; gap: 18px; margin-top: 18px; }
+        .product-card { background: #12182C; border-radius: 20px; padding: 18px; border: 1px solid #262F4A; }
+        .card-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; display: flex; gap: 8px; }
+        .card-bullet { list-style: none; margin: 12px 0 16px; }
+        .card-bullet li { font-size: 13px; margin-bottom: 8px; padding-left: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%234B9CFF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>') left center no-repeat; background-size: 13px; }
+        .card-btn { background: transparent; border: 1px solid #4B9CFF; padding: 8px 20px; border-radius: 40px; font-size: 13px; color: #BFD9FF; cursor: pointer; min-width: 120px; min-height: 42px; width: 100%; }
+        .footer { padding: 20px 18px 24px; text-align: center; border-top: 1px solid #232B44; background: #0B1020; }
+        .footer-links { font-size: 11px; color: #8A99C0; margin-bottom: 12px; }
+        .footer-copyright { display: flex; justify-content: center; gap: 20px; font-size: 12px; color: #5F6F97; }
+    </style>
+</head>
+<body>
+<div class="frame">
+    <div class="header">
+        <div class="nav"><a class="menu-item active" data-screen="1">Главная</a><a class="menu-item" data-screen="2">Решения</a></div>
+        <div class="screen-badge">Мобильное • 4 колонки</div>
+    </div>
+    <div id="screen1" class="content">
+        <div class="search-wrapper"><div class="search-box"><div class="search-icon"></div><input class="search-input" placeholder="Поиск"></div></div>
+        <div class="os-badge">ОПЕРАЦИОННАЯ СИСТЕМА</div>
+        <h1>Astra Linux Special Edition</h1>
+        <div class="description">Сертифицированная ОС со встроенными средствами защиты информации (СЗИ) для стабильной и безопасной работы ИТ-инфраструктур любого масштаба и обработки информации различной степени конфиденциальности. Доступны версии для серверного, десктопного, мобильного и встраиваемого сценариев применения.</div>
+        <div class="stats"><div class="stat-item">🏛️ 1000+ организаций</div><div class="stat-item">🔒 Гостайна</div><div class="stat-item">⚙️ Совместимость</div></div>
+        <div class="button-group"><button class="btn btn-primary">Заказать лицензию</button><button class="btn btn-secondary">Скачать пробную версию</button></div>
+    </div>
+    <div id="screen2" class="content" style="display: none;">
+        <div class="os-badge">ПРОДУКТЫ</div>
+        <h1 style="font-size: 24px;">Решения Группы Астра</h1>
+        <div class="cards-grid">
+            <div class="product-card"><div class="card-title">🖥️ Astra Linux Desktop</div><ul class="card-bullet"><li>Удобство для пользователя</li><li>Универсальность</li><li>Современность</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">🛡️ Server + vGate</div><ul class="card-bullet"><li>Защищенная виртуализация</li><li>Управление конфигурациями</li><li>Безопасные контейнеры</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">📱 Astra Linux Mobile</div><ul class="card-bullet"><li>Адаптивность</li><li>Централизованность</li><li>Удобство</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">📟 Astra Linux Embedded</div><ul class="card-bullet"><li>Поддержка архитектур</li><li>Гибкое лицензирование</li><li>Сертификаты</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">🧩 Программный стек</div><ul class="card-bullet"><li>Экосистема продуктов</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">📞 Техподдержка 24/7</div><ul class="card-bullet"><li>Консультация 24/7</li></ul><button class="card-btn">Подробнее</button></div>
+        </div>
+    </div>
+    <div class="footer"><div class="footer-links">Продолжая, вы соглашаетесь с условиями использования</div><div class="footer-copyright"><span>© 2025</span><span>Все права защищены</span></div></div>
+</div>
+<script>
+    document.querySelectorAll('.menu-item').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const scr = el.dataset.screen;
+            document.getElementById('screen1').style.display = scr === '1' ? 'block' : 'none';
+            document.getElementById('screen2').style.display = scr === '2' ? 'block' : 'none';
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            el.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
