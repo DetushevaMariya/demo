@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Группа Астра | Десктоп (12 колонок)</title>
+    <title>Группа Астра | Десктоп 12 колонок (сетка видна)</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0A0F1E 0%, #0C1122 100%);
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Roboto', sans-serif;
+            background: #0A0F1E;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             color: #EFF3F9;
             display: flex;
             justify-content: center;
@@ -22,8 +22,9 @@
             padding: 40px 20px;
         }
 
-        /* Фрейм с чёткой границей */
+        /* Фрейм с относительным позиционированием для наложения сетки */
         .frame {
+            position: relative;
             max-width: 1280px;
             width: 100%;
             background: #0F1424;
@@ -33,250 +34,128 @@
             overflow: hidden;
         }
 
-        /* 12-колоночная сетка */
-        .container {
-            padding: 0 32px;
-        }
-        .row {
+        /* ========== ВИДИМАЯ СЕТКА 12 КОЛОНОК ========== */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* чтобы сетка не мешала кликать */
+            z-index: 100;
             display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
+            padding: 0 32px; /* отступы как у контента */
+            gap: 24px; /* межколонник */
         }
+        .grid-overlay .col {
+            background: rgba(75, 156, 255, 0.12);
+            height: 100%;
+            flex: 1;
+            border-left: 1px dashed rgba(75, 156, 255, 0.4);
+            border-right: 1px dashed rgba(75, 156, 255, 0.4);
+        }
+        /* подпись количества колонок */
+        .grid-label {
+            position: absolute;
+            bottom: 12px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: monospace;
+            color: #4B9CFF;
+            z-index: 101;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Остальные стили — без изменений */
+        .container { padding: 0 32px; }
+        .row { display: flex; flex-wrap: wrap; gap: 24px; }
         .col-12 { width: 100%; }
         .col-6 { width: calc(50% - 12px); }
-        .col-4 { width: calc(33.333% - 16px); }
-        .col-3 { width: calc(25% - 18px); }
-
-        /* Шапка */
-        .header {
-            padding: 24px 32px 16px;
-            border-bottom: 1px solid #232B44;
-            background: rgba(15, 20, 36, 0.95);
-        }
-        .nav {
-            display: flex;
-            gap: 48px;
-        }
-        .menu-item {
-            font-size: 18px;
-            font-weight: 500;
-            color: #C0D0F0;
-            text-decoration: none;
-            padding: 8px 0;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .menu-item.active {
-            color: #4B9CFF;
-            border-bottom: 2px solid #4B9CFF;
-        }
+        
+        .header { padding: 24px 32px 16px; border-bottom: 1px solid #232B44; background: rgba(15, 20, 36, 0.95); }
+        .nav { display: flex; gap: 48px; }
+        .menu-item { font-size: 18px; font-weight: 500; color: #C0D0F0; text-decoration: none; cursor: pointer; padding: 8px 0; transition: 0.2s; }
+        .menu-item.active { color: #4B9CFF; border-bottom: 2px solid #4B9CFF; }
         .menu-item:hover { color: #7BB4FF; }
-        .screen-badge {
-            display: inline-block;
-            background: #1B233B;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 12px;
-            margin-top: 16px;
-        }
-
-        /* Контент */
-        .content {
-            padding: 40px 32px 48px;
-            min-height: 500px;
-        }
-
-        /* Поиск */
+        .screen-badge { display: inline-block; background: #1B233B; padding: 6px 16px; border-radius: 40px; font-size: 12px; margin-top: 16px; }
+        
+        .content { padding: 40px 32px 48px; min-height: 500px; position: relative; z-index: 2; background: transparent; }
+        
         .search-wrapper { margin-bottom: 48px; max-width: 520px; }
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: #1A1F32;
-            border-radius: 60px;
-            border: 1px solid #2F3B5C;
-            padding: 6px 8px 6px 20px;
-            transition: 0.2s;
-        }
+        .search-box { display: flex; align-items: center; background: #1A1F32; border-radius: 60px; border: 1px solid #2F3B5C; padding: 6px 8px 6px 20px; }
         .search-box:focus-within { border-color: #4B9CFF; background: #20263F; }
-        .search-icon {
-            width: 22px;
-            height: 22px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%238F9FCC" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>') no-repeat center;
-            background-size: contain;
-            margin-right: 12px;
-        }
-        .search-input {
-            background: transparent;
-            border: none;
-            padding: 14px 0;
-            font-size: 16px;
-            color: white;
-            width: 100%;
-            outline: none;
-        }
+        .search-icon { width: 22px; height: 22px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%238F9FCC" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>') no-repeat center; background-size: contain; margin-right: 12px; }
+        .search-input { background: transparent; border: none; padding: 14px 0; font-size: 16px; color: white; width: 100%; outline: none; }
         .search-input::placeholder { color: #5F6F97; }
-
-        /* Текст */
-        .os-badge {
-            font-size: 13px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #4B9CFF;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        h1 {
-            font-size: 42px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFF, #A9C5FF);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 24px;
-        }
-        .description {
-            font-size: 16px;
-            color: #CBD5E6;
-            margin-bottom: 32px;
-            line-height: 1.5;
-        }
-        .stats {
-            background: #12182C;
-            padding: 20px 28px;
-            border-radius: 24px;
-            border-left: 4px solid #4B9CFF;
-            margin: 32px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-        .stat-item {
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Кнопки (мин. 40x40) */
+        
+        .os-badge { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #4B9CFF; font-weight: 600; margin-bottom: 12px; }
+        h1 { font-size: 42px; font-weight: 700; background: linear-gradient(135deg, #FFF, #A9C5FF); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 24px; }
+        .description { font-size: 16px; color: #CBD5E6; margin-bottom: 32px; line-height: 1.5; }
+        .stats { background: #12182C; padding: 20px 28px; border-radius: 24px; border-left: 4px solid #4B9CFF; margin: 32px 0; display: flex; flex-wrap: wrap; gap: 24px; }
+        .stat-item { font-size: 15px; display: flex; align-items: center; gap: 12px; }
+        
         .button-group { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0 20px; }
-        .btn {
-            padding: 12px 32px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 48px;
-            cursor: pointer;
-            border: none;
-            min-width: 170px;
-            min-height: 48px;
-            transition: 0.2s;
-        }
+        .btn { padding: 12px 32px; font-size: 16px; font-weight: 600; border-radius: 48px; cursor: pointer; border: none; min-width: 170px; min-height: 48px; transition: 0.2s; }
         .btn-primary { background: #2F6ED6; color: white; box-shadow: 0 4px 12px rgba(47,110,214,0.3); }
         .btn-primary:hover { background: #1F5BBC; transform: translateY(-2px); }
         .btn-secondary { background: transparent; border: 1.5px solid #4B9CFF; color: #BFD9FF; }
         .btn-secondary:hover { background: rgba(75,156,255,0.1); }
-
-        /* Карточки для экрана 2 */
-        .cards-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 24px;
-        }
-        .product-card {
-            background: #12182C;
-            border-radius: 24px;
-            padding: 24px;
-            border: 1px solid #262F4A;
-            transition: 0.2s;
-        }
+        
+        .cards-grid { display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
+        .product-card { background: #12182C; border-radius: 24px; padding: 24px; border: 1px solid #262F4A; transition: 0.2s; }
         .product-card:hover { border-color: #3E5A8C; background: #141C34; transform: translateY(-3px); }
-        .card-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .card-bullet {
-            list-style: none;
-            margin: 16px 0 20px;
-        }
-        .card-bullet li {
-            font-size: 15px;
-            margin-bottom: 10px;
-            padding-left: 24px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%234B9CFF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>') left center no-repeat;
-            background-size: 16px;
-        }
-        .card-btn {
-            background: transparent;
-            border: 1px solid #4B9CFF;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 500;
-            color: #BFD9FF;
-            cursor: pointer;
-            min-width: 130px;
-            min-height: 42px;
-            font-size: 14px;
-        }
+        .card-title { font-size: 24px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .card-bullet { list-style: none; margin: 16px 0 20px; }
+        .card-bullet li { font-size: 15px; margin-bottom: 10px; padding-left: 24px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%234B9CFF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>') left center no-repeat; background-size: 16px; }
+        .card-btn { background: transparent; border: 1px solid #4B9CFF; padding: 10px 24px; border-radius: 40px; font-weight: 500; color: #BFD9FF; cursor: pointer; min-width: 130px; min-height: 42px; font-size: 14px; }
         .card-btn:hover { background: #2F6ED6; color: white; border-color: #2F6ED6; }
-
-        /* Футер внизу */
-        .footer {
-            padding: 28px 32px 32px;
-            text-align: center;
-            border-top: 1px solid #232B44;
-            background: #0B1020;
-        }
+        
+        .footer { padding: 28px 32px 32px; text-align: center; border-top: 1px solid #232B44; background: #0B1020; position: relative; z-index: 2; }
         .footer-links { font-size: 13px; color: #8A99C0; margin-bottom: 16px; }
         .footer-copyright { display: flex; justify-content: center; gap: 28px; font-size: 14px; color: #5F6F97; }
     </style>
 </head>
 <body>
 <div class="frame">
+    <!-- ВИДИМАЯ СЕТКА 12 колонок (накладывается поверх) -->
+    <div class="grid-overlay" id="gridOverlay">
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+    </div>
+    <div class="grid-label">📐 12 колонок | 24px gutter</div>
+
     <div class="header">
         <div class="nav">
             <a class="menu-item active" data-screen="1">Главная</a>
             <a class="menu-item" data-screen="2">Решения</a>
         </div>
-        <div class="screen-badge">Десктоп • 12 колонок</div>
+        <div class="screen-badge">Десктоп • 12 колонок (сетка видна)</div>
     </div>
 
-    <!-- Экран 1 -->
     <div id="screen1" class="content">
-        <div class="search-wrapper">
-            <div class="search-box">
-                <div class="search-icon"></div>
-                <input class="search-input" placeholder="Поиск по продуктам, документации...">
-            </div>
-        </div>
+        <div class="search-wrapper"><div class="search-box"><div class="search-icon"></div><input class="search-input" placeholder="Поиск по продуктам..."></div></div>
         <div class="os-badge">ОПЕРАЦИОННАЯ СИСТЕМА</div>
         <h1>Astra Linux Special Edition</h1>
-        <div class="description">Сертифицированная ОС со встроенными средствами защиты информации (СЗИ) для стабильной и безопасной работы ИТ-инфраструктур любого масштаба и обработки информации различной степени конфиденциальности. Доступны версии для серверного, десктопного, мобильного и встраиваемого сценариев применения.</div>
-        <div class="stats">
-            <div class="stat-item">🏛️ Более 1000 организаций используют Astra Linux</div>
-            <div class="stat-item">🔒 Сертифицированная система безопасности до уровня государственной тайны</div>
-            <div class="stat-item">⚙️ Полная совместимость с отечественными стандартами</div>
-        </div>
-        <div class="button-group">
-            <button class="btn btn-primary">Заказать лицензию</button>
-            <button class="btn btn-secondary">Скачать пробную версию</button>
-        </div>
+        <div class="description">Сертифицированная ОС со встроенными средствами защиты информации (СЗИ) для стабильной и безопасной работы ИТ-инфраструктур любого масштаба.</div>
+        <div class="stats"><div class="stat-item">🏛️ Более 1000 организаций</div><div class="stat-item">🔒 Гостайна</div><div class="stat-item">⚙️ Совместимость</div></div>
+        <div class="button-group"><button class="btn btn-primary">Заказать лицензию</button><button class="btn btn-secondary">Скачать пробную версию</button></div>
     </div>
 
-    <!-- Экран 2 -->
     <div id="screen2" class="content" style="display: none;">
         <div class="os-badge">ПРОДУКТЫ</div>
         <h1 style="font-size: 34px;">Решения «Группы Астра»</h1>
         <div class="cards-grid">
             <div class="product-card"><div class="card-title">🖥️ Astra Linux Desktop</div><ul class="card-bullet"><li>Удобство для пользователя</li><li>Универсальность</li><li>Современность</li></ul><button class="card-btn">Подробнее</button></div>
-            <div class="product-card"><div class="card-title">🛡️ Astra Linux Server + vGate NGFW</div><ul class="card-bullet"><li>Защищенный стек виртуализации</li><li>Централизованное управление</li><li>Инструменты для разработки</li><li>Безопасная среда контейнеров</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">🛡️ Astra Linux Server + vGate</div><ul class="card-bullet"><li>Защищенный стек виртуализации</li><li>Централизованное управление</li><li>Инструменты разработки</li></ul><button class="card-btn">Подробнее</button></div>
             <div class="product-card"><div class="card-title">📱 Astra Linux Mobile</div><ul class="card-bullet"><li>Адаптивность</li><li>Централизованность</li><li>Удобство</li></ul><button class="card-btn">Подробнее</button></div>
-            <div class="product-card"><div class="card-title">📟 Astra Linux Embedded</div><ul class="card-bullet"><li>Поддержка архитектур</li><li>Гибкое лицензирование</li><li>Сертификаты регуляторов</li><li>Поддержка вендора</li></ul><button class="card-btn">Подробнее</button></div>
-            <div class="product-card"><div class="card-title">🧩 Программный стек «Группы Астра»</div><ul class="card-bullet"><li>Экосистема продуктов</li></ul><button class="card-btn">Подробнее</button></div>
-            <div class="product-card"><div class="card-title">📞 Техническая поддержка</div><ul class="card-bullet"><li>Консультация 24/7</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">📟 Astra Linux Embedded</div><ul class="card-bullet"><li>Поддержка архитектур</li><li>Гибкое лицензирование</li><li>Сертификаты</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">🧩 Программный стек</div><ul class="card-bullet"><li>Экосистема продуктов</li></ul><button class="card-btn">Подробнее</button></div>
+            <div class="product-card"><div class="card-title">📞 Техподдержка 24/7</div><ul class="card-bullet"><li>Консультация 24/7</li></ul><button class="card-btn">Подробнее</button></div>
         </div>
     </div>
 
